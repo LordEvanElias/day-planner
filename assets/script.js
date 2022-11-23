@@ -1,8 +1,31 @@
-$(function () {
+$(document).ready(function () {
   let buttons = $(".saveBtn");
+
   buttons.on("click", function (event) {
-    alert("Button Clicked");
+    let parent = $(this).parent().attr("id");
+    let description = $(this).siblings(".description").val();
+    console.log(parent, description);
+    localStorage.setItem(parent, description);
   });
+
+  function updateHour() {
+    let currentHour = dayjs().hour();
+    $(".time-block").each(function () {
+      let timeBlock = parseInt($(this).attr("id").split("-")[1]);
+
+      if (timeBlock < currentHour) {
+        $(this).addClass("past");
+      } else if (timeBlock === currentHour) {
+        $(this).removeClass("past");
+        $(this).addClass("present");
+      } else {
+        $(this).removeClass("past");
+        $(this).removeClass("present");
+        $(this).addClass("future");
+      }
+    });
+  }
+  updateHour();
 
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
@@ -23,4 +46,14 @@ $(function () {
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
+  $("#hour-9 .description").val(localStorage.getItem("hour-9"));
+  $("#hour-10 .description").val(localStorage.getItem("hour-10"));
+  $("#hour-11 .description").val(localStorage.getItem("hour-11"));
+  $("#hour-12 .description").val(localStorage.getItem("hour-12"));
+  $("#hour-13 .description").val(localStorage.getItem("hour-13"));
+  $("#hour-14 .description").val(localStorage.getItem("hour-14"));
+  $("#hour-15 .description").val(localStorage.getItem("hour-15"));
+  $("#hour-16 .description").val(localStorage.getItem("hour-16"));
+  $("#hour-17 .description").val(localStorage.getItem("hour-17"));
+  $("#currentDay").text(dayjs().format("MMM D, YYYY"));
 });
